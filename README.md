@@ -1,3 +1,11 @@
+:exclamation-mark:
+
+If you have problems with not finding Rakefile, use
+
+`bundle exec rake -f C:\Users\USER.NAME\.vscode\extensions\connorshea.vscode-ruby-test-adapter-0.6.0\ruby\Rakefile`
+
+as `Ruby Test Explorer: Minitest Command`
+
 # Ruby Test Explorer
 **[Install it from the VS Code Marketplace.](https://marketplace.visualstudio.com/items?itemName=connorshea.vscode-ruby-test-adapter)**
 

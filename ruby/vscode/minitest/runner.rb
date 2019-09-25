@@ -9,7 +9,10 @@ module VSCode
       end
 
       def add(runnable)
-        path, line = runnable.split(":")
+        match_data = runnable.match(/(?<path>.+)(?<line>:\d+)?$/)
+        path = match_data['path']
+        line = match_data['line']
+
         path = File.expand_path(path, VSCode.project_root)
         return add_dir(path) if File.directory?(path)
         return add_file_with_line(path, line.to_i) if File.file?(path) && line
@@ -24,7 +27,7 @@ module VSCode
       end
 
       def add_file(file)
-        test = VSCode::Minitest.tests.find_by(full_path: file)
+        test = VSCode::Minitest.tests.find_by(full_path: file.gsub('c:/', 'C:/')) # weird C: bug, to be figured out later
         runnables << [constant_for(test[:klass]), {}] if test
       end
 
