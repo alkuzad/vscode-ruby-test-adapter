@@ -16,10 +16,10 @@ module VSCode
 
       def load_files
         # Take the tests dir in the format of `./test/` and turn it into `test`.
-        test_dir = ENV['TESTS_DIR'].gsub('./', '')
+        test_dir = ENV['TESTS_DIR'].gsub('./', '').gsub('.\\', '')
         test_dir = test_dir[0...-1] if test_dir.end_with?('/')
         $LOAD_PATH << VSCode.project_root.join(test_dir).to_s
-        Rake::FileList["#{test_dir}/**/*_test.rb"].each { |path| require File.expand_path(path) }
+        Dir.glob(File.join(test_dir, '**', '*_spec.rb')).each { |path| require File.expand_path(path) }
       end
 
       def build_list
@@ -30,6 +30,7 @@ module VSCode
             full_path = File.expand_path(path, VSCode.project_root)
             path = full_path.gsub(VSCode.project_root.to_s, ".")
             path = "./#{path}" unless path =~ /^\./
+            path = path.gsub("/","\\")
             {
               description: test_name.gsub(/^test_/, "").gsub("_", " "),
               full_description: test_name.gsub(/^test_/, "").gsub("_", " "),
